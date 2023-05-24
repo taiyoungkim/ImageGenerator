@@ -2,6 +2,7 @@
 해당 프로젝트는 TDD를 공부하기 위해 만든 프로젝트입니다.
 
 # ‼️ WIP ‼️
+해당 README는 자주 수정됩니다!!
 
 # **개요**
 
@@ -58,6 +59,7 @@ Mockito, Junit, Espresso 정도를 고민하고 있다.
     1. 입력 제한은 10자로 한다. (정말 간단한 글로 상세한 프롬프트를 받을 예정이다.)
     2. 입력 제한이 넘어가면 더이상 입력되지 않고 입력뷰 하단에 빨간 경고 메세지가 보여진다.
     3. 복붙의 경우도 10자가 넘어갈 경우 10자로 제한되서 자른다.
+    4. 유저가 특수 문자나 텍스트가 아닌 문자를 입력한 경우 한글, 영어, 숫자만 허용
 5. 입력받은 문장을 제출하는 버튼을 누른다.
     1. 10자 제한을 체크한다.
     2. 입력이 없을 경우 빨간 경고 메세지가 보여지고 Request 되지 않는다.
@@ -65,13 +67,21 @@ Mockito, Junit, Espresso 정도를 고민하고 있다.
 7. Request에 따른 Response를 받는다.
     1. Response가 fail인 경우 유저에게 에러가 발생하였다고 안내한다.
 8. Response로 ai로 프롬프트를 받아 화면에 보여진다.
-9. 프롬프트를 다시 Image generation api를 통해서 Request를 호출한다.
+   1. ChatGPT의 Reponse가 잘못된 경우 프롬프트를 가져오는데 문제가 발생했다는 에러 메세지 보여주기
+9.  프롬프트를 다시 Image generation api를 통해서 Request를 호출한다.
     1. 프롬프트 길이 제한이 필요할까?
     2. 이미지 크기는 `1024x1024`
     3. 이미지는 4개를 호출한다.
 10. 호출된 Request에 따른 이미지 Response를 화면에 보여준다.
     1. 이미지 크기는 `1024x1024`
     2. 이미지는 4개를 보여준다.
+11. Response 기다리는 동안 loading 표시하기
+    1. request를 하면 loading 표시
+    2. response를 받으면 loading 숨기기
+12. 이미지가 4개 미만인 경우
+    1. maximum을 4개로 해서 1~4개는 reponse 받는 경우 그대로 보여주기
+    2. 0개인 경우 에러가 발생 했다는 메세지 보여주기
+13. 이미지 응답이 손상되었거나 렌더링할 수 없는 경우 에러가 발생 했다는 메세지 보여주기
 
 해당 기술 명세서는 개발하면서 업데이트가 될 예정이다.
 
@@ -114,6 +124,9 @@ fun saveApiKey_OnSuccessfulSave_DisplaysToastAndNavigatesToMainScreen() {}
 @Test
 fun acceptUserInput_OnTyping_AcceptsWordOrSimpleSentence() {}
 @Test
+fun acceptUserInput_IfSpecialOrNonTextCharacters_OnlyAllowKoreanEnglishNumeric() {}
+
+@Test
 fun enforceInputLimit_IfExceeds10Characters_LimitsInputTo10Chars() {}
 @Test
 fun enforceInputLimit_OnExceedingLimit_DisplaysWarningMessageUnderInputView() {}
@@ -132,6 +145,8 @@ fun makeRequest_OnInput_SubmitsInputToChatGPTAPI() {}
 fun handleResponse_OnRequestReception_ReceivesResponseFromAPI() {}
 @Test
 fun handleResponse_IfResponseFail_InformsUserAboutError() {}
+@Test
+fun handleResponse_IfResponseIsIncorrect_ShowsPromptRetrievalErrorMessage() {}
 
 @Test
 fun displayPrompt_OnSuccessfulResponse_DisplaysAIReceivedPromptOnScreen() {}
@@ -144,6 +159,17 @@ fun handleImageResponse_OnRequestReception_DisplaysImageOnScreen() {}
 fun handleImageResponse_IfImageSize1024_ChecksImageSize() {}
 @Test
 fun handleImageResponse_IfMoreThan4ImagesReceived_DisplaysFourImages() {}
+
+@Test
+fun showLoadingIndicator_OnRequest_SubmitsAndHidesAfterResponse() {}
+
+@Test
+fun handleImageResponse_IfLessThanFourImages_DisplayReceivedImages() {}
+@Test
+fun handleImageResponse_IfNoImagesReceived_ShowsErrorMessage() {}
+
+@Test
+fun handleImageResponse_IfImageCorruptOrCannotBeRendered_ShowsErrorMessage() {}
 ```
 
 위의 명세서를 기준으로 만든 테스트 코드이다.
