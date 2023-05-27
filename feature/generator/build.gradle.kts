@@ -5,5 +5,5 @@ plugins {
 }
 
 android {
-    namespace = "com.tydev.imagegenerator.feature.setup"
+    namespace = "com.tydev.imagegenerator.feature.generator"
 }
