@@ -1,5 +1,7 @@
 package com.tydev.imagegenerator.core.datastore
 
+import com.tydev.imagegenerator.core.datastore.test.testUserPreferencesDataStore
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -7,33 +9,33 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import kotlin.test.assertTrue
 
-class ApiKeyDataSourceTest {
+class UserDataSourceTest {
 
     private val testScope = TestScope(UnconfinedTestDispatcher())
 
-    private lateinit var subject: ApiKeyDataSource
+    private lateinit var subject: UserDataSource
 
     @get:Rule
     val tmpFolder: TemporaryFolder = TemporaryFolder.builder().assureDeletion().build()
 
     @Before
     fun setup() {
-        subject = ApiKeyDataSource(
-            tmpFolder.testApiKeyDataStore(testScope),
+        subject = UserDataSource(
+            tmpFolder.testUserPreferencesDataStore(testScope),
         )
     }
 
     @Test
     fun saveApiKey_OnUserInput_SavesKeyToDataStore() = testScope.runTest {
         // Arrange
-        val userInput = "yourApiKey"
+        val expectApiKey = "yourApiKey"
 
         // When
-        subject.setApiKey(userInput)
+        subject.setApiKey(expectApiKey)
+        val actualApiKey = subject.userData.first().apiKey
 
         // Then
-        assertTrue(subject.apiKey)
+        kotlin.test.assertEquals(expectApiKey, actualApiKey)
     }
 }
