@@ -13,18 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("tydev.android.library")
-    id("tydev.android.hilt")
-}
 
-android {
-    namespace = "com.tydev.imagegenerator.core.datastore.test"
-}
+package com.tydev.imagegenerator.core.network.di
 
-dependencies {
-    api(project(":core:datastore"))
+import com.tydev.imagegenerator.core.network.Dispatcher
+import com.tydev.imagegenerator.core.network.GeneratorAppDispatchers
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
-    api(libs.androidx.dataStore.core)
-    api(libs.hilt.android.testing)
+@Module
+@InstallIn(SingletonComponent::class)
+internal object DispatcherModule {
+
+    @Provides
+    @Dispatcher(GeneratorAppDispatchers.IO)
+    fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO
 }

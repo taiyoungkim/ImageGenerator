@@ -13,18 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("tydev.android.library")
-    id("tydev.android.hilt")
-}
 
-android {
-    namespace = "com.tydev.imagegenerator.core.datastore.test"
-}
+package com.tydev.imagegenerator
 
-dependencies {
-    api(project(":core:datastore"))
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-    api(libs.androidx.dataStore.core)
-    api(libs.hilt.android.testing)
-}
+@HiltAndroidApp
+class MyApplication : Application()

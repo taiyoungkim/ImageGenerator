@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("tydev.android.library")
-    id("tydev.android.hilt")
-}
 
-android {
-    namespace = "com.tydev.imagegenerator.core.datastore.test"
-}
+package com.tydev.imagegenerator.core.network
 
-dependencies {
-    api(project(":core:datastore"))
+import com.tydev.imagegenerator.core.model.data.Chat
+import com.tydev.imagegenerator.core.model.data.Image
+import com.tydev.imagegenerator.core.model.request.CompletionBody
+import com.tydev.imagegenerator.core.model.request.GenerateImageBody
 
-    api(libs.androidx.dataStore.core)
-    api(libs.hilt.android.testing)
+interface NetworkDataSource {
+    suspend fun getPrompt(completion: CompletionBody): Chat
+
+    suspend fun generateImage(generateImage: GenerateImageBody): Image
 }

@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("tydev.android.library")
-    id("tydev.android.hilt")
-}
 
-android {
-    namespace = "com.tydev.imagegenerator.core.datastore.test"
-}
+package com.tydev.imagegenerator.core.network
 
-dependencies {
-    api(project(":core:datastore"))
+import javax.inject.Qualifier
+import kotlin.annotation.AnnotationRetention.RUNTIME
 
-    api(libs.androidx.dataStore.core)
-    api(libs.hilt.android.testing)
+@Qualifier
+@Retention(RUNTIME)
+annotation class Dispatcher(val dispatcher: GeneratorAppDispatchers)
+
+enum class GeneratorAppDispatchers {
+    IO,
 }

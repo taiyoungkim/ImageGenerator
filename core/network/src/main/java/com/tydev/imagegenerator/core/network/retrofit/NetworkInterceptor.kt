@@ -13,18 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("tydev.android.library")
-    id("tydev.android.hilt")
-}
 
-android {
-    namespace = "com.tydev.imagegenerator.core.datastore.test"
-}
+package com.tydev.imagegenerator.core.network.retrofit
 
-dependencies {
-    api(project(":core:datastore"))
+import okhttp3.Interceptor
+import okhttp3.Response
+import javax.inject.Inject
 
-    api(libs.androidx.dataStore.core)
-    api(libs.hilt.android.testing)
+class NetworkInterceptor @Inject constructor() : Interceptor {
+    var apiKey: String? = null
+
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val newRequest = chain.request().newBuilder()
+            .apply {
+                apiKey?.let {
+                    addHeader("Authorization", "Bearer $it")
+                }
+            }
+            .build()
+
+        return chain.proceed(newRequest)
+    }
 }
