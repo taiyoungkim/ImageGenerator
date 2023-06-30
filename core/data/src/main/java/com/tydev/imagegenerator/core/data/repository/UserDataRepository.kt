@@ -14,27 +14,17 @@
  * limitations under the License.
  */
 
-package com.tydev.imagegenerator.core.datastore
+package com.tydev.imagegenerator.core.data.repository
 
-import androidx.datastore.core.DataStore
 import com.tydev.imagegenerator.core.model.data.UserData
-import kotlinx.coroutines.flow.map
-import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
-class UserDataSource @Inject constructor(
-    private val userPreferences: DataStore<UserPreferences>,
-) {
-    val userData = userPreferences.data.map {
-        UserData(
-            apiKey = it.apiKey,
-        )
-    }
+interface UserDataRepository {
 
-    suspend fun setApiKey(apiKey: String) {
-        userPreferences.updateData {
-            it.copy {
-                this.apiKey = apiKey
-            }
-        }
-    }
+	/**
+	 * Stream of [UserData]
+	 */
+	val userData: Flow<UserData>
+
+	suspend fun fetchUserDataAndUpdateKey(userData: UserData)
 }

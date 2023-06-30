@@ -20,18 +20,12 @@ class TestNetworkDataSource : NetworkDataSource {
     private val allImages = runBlocking { source.generateImage(GenerateImageBody("", 0, "")) }
 
     override suspend fun getPrompt(completion: CompletionBody): Chat {
-        return if (completion.messages.any { it.content == "error" }) {
-            throw IllegalArgumentException("Test error")
-        } else {
-            allPrompts
-        }
+        require(completion.messages.none { it.content == "error" }) { "Test error" }
+        return allPrompts
     }
 
     override suspend fun generateImage(generateImage: GenerateImageBody): Image {
-        return if (generateImage.prompt == "error") {
-            throw IllegalArgumentException("Test error")
-        } else {
-            allImages
-        }
+        require(generateImage.prompt != "error") { "Test error" }
+        return allImages
     }
 }
