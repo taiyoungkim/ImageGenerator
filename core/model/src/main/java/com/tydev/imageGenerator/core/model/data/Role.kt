@@ -17,7 +17,7 @@
 package com.tydev.imagegenerator.core.model.data
 
 enum class Role {
-	SYSTEM,
-	USER,
-	ASSISTANT,
+    SYSTEM,
+    USER,
+    ASSISTANT,
 }
