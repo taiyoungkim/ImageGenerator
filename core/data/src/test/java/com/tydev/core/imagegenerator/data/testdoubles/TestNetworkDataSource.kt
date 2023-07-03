@@ -8,6 +8,9 @@ import com.tydev.imagegenerator.core.network.NetworkDataSource
 import com.tydev.imagegenerator.core.network.fake.FakeNetworkDataSource
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import okhttp3.ResponseBody.Companion.toResponseBody
+import retrofit2.HttpException
+import retrofit2.Response
 
 /**
  * Test double for [NetworkDataSource]
@@ -20,12 +23,16 @@ class TestNetworkDataSource : NetworkDataSource {
     private val allImages = runBlocking { source.generateImage(GenerateImageBody("", 0, "")) }
 
     override suspend fun getPrompt(completion: CompletionBody): Chat {
-        require(completion.messages.none { it.content == "error" }) { "Test error" }
+        if (completion.messages.any { it.content == "error" }) {
+            throw HttpException(Response.error<Nothing>(404, "".toResponseBody(null)))
+        }
         return allPrompts
     }
 
     override suspend fun generateImage(generateImage: GenerateImageBody): Image {
-        require(generateImage.prompt != "error") { "Test error" }
+        if (generateImage.prompt == "error") {
+            throw HttpException(Response.error<Nothing>(404, "".toResponseBody(null)))
+        }
         return allImages
     }
 }

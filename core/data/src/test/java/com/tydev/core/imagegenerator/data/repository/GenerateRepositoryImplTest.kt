@@ -41,9 +41,11 @@ class GenerateRepositoryImplTest {
     fun getPrompt_Throws_When_An_Error_Occurs() = runTest {
         val word = "error"
 
-        assertFailsWith<IllegalArgumentException> {
+        val exception = assertFailsWith<IllegalArgumentException> {
             subject.getPrompt(word).first()
         }
+
+        assertEquals("404", exception.message)
     }
 
     @Test
@@ -59,8 +61,10 @@ class GenerateRepositoryImplTest {
     fun generateImages_Throws_When_An_Error_Occurs() = runTest {
         val prompt = "error"
 
-        assertFailsWith<IllegalArgumentException> {
+        val exception = assertFailsWith<IllegalArgumentException> {
             subject.generateImages(prompt).first()
         }
+
+        assertEquals("404", exception.message)
     }
 }
