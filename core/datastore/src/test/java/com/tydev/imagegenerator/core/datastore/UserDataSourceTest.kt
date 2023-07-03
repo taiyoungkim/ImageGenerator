@@ -21,10 +21,12 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
+import java.io.IOException
 
 class UserDataSourceTest {
 
@@ -43,12 +45,17 @@ class UserDataSourceTest {
     }
 
     @Test
-    fun saveApiKey_OnUserInput_SavesKeyToDataStore() = testScope.runTest {
+    fun saveApiKey_On_User_Input_Saves_Key_To_Data_Store() = testScope.runTest {
         val expectApiKey = "yourApiKey"
 
         subject.setApiKey(expectApiKey)
         val actualApiKey = subject.userData.first().apiKey
 
-        kotlin.test.assertEquals(expectApiKey, actualApiKey)
+        assertEquals(expectApiKey, actualApiKey)
+    }
+
+    @Test
+    fun setApiKey_On_IO_Exception_Shows_Error_Log() = testScope.runTest {
+
     }
 }

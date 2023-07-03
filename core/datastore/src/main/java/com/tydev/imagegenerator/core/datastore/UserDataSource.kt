@@ -16,9 +16,11 @@
 
 package com.tydev.imagegenerator.core.datastore
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import com.tydev.imagegenerator.core.model.data.UserData
 import kotlinx.coroutines.flow.map
+import java.io.IOException
 import javax.inject.Inject
 
 class UserDataSource @Inject constructor(
@@ -31,10 +33,14 @@ class UserDataSource @Inject constructor(
     }
 
     suspend fun setApiKey(apiKey: String) {
-        userPreferences.updateData {
-            it.copy {
-                this.apiKey = apiKey
+        try {
+            userPreferences.updateData {
+                it.copy {
+                    this.apiKey = apiKey
+                }
             }
+        } catch (ioException: IOException) {
+            Log.e("UserPreferences", "Failed to update user preferences", ioException)
         }
     }
 }
