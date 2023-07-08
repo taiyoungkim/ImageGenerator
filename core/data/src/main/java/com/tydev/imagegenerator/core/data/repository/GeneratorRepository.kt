@@ -23,9 +23,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface GeneratorRepository {
 
-	@WorkerThread
-	fun getPrompt(word: String): Flow<Chat>
+    @WorkerThread
+    fun getPrompt(word: String): Flow<Chat>
 
-	@WorkerThread
-	fun generateImages(prompt: String): Flow<Image>
+    @WorkerThread
+    fun generateImages(prompt: String): Flow<Image>
 }

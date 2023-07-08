@@ -54,7 +54,7 @@ class GenerateRepositoryImpl @Inject constructor(
         try {
             emit(networkDataSource.getPrompt(completion))
         } catch (e: HttpException) {
-            throw IllegalArgumentException(e.code().toString())
+            throw IllegalArgumentException(e.code().toString(), e)
         }
     }.flowOn(ioDispatcher)
 
@@ -69,7 +69,7 @@ class GenerateRepositoryImpl @Inject constructor(
         try {
             emit(networkDataSource.generateImage(generateImage))
         } catch (e: HttpException) {
-            throw IllegalArgumentException(e.code().toString())
+            throw IllegalArgumentException(e.code().toString(), e)
         }
     }.flowOn(ioDispatcher)
 

@@ -22,6 +22,8 @@ import com.tydev.imagegenerator.core.model.data.Image
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 
 class TestGeneratorRepository : GeneratorRepository {
     /**
@@ -36,9 +38,26 @@ class TestGeneratorRepository : GeneratorRepository {
     private val imagesFlow: MutableSharedFlow<Image> =
         MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
-    override fun getPrompt(word: String): Flow<Chat> = promptFlow
+    private var getPromptException: Throwable? = null
+    private var generateImagesException: Throwable? = null
 
-    override fun generateImages(prompt: String): Flow<Image> = imagesFlow
+    override fun getPrompt(word: String): Flow<Chat> =
+        flow {
+            getPromptException?.let { throw it } ?: emitAll(promptFlow)
+        }
+
+    override fun generateImages(prompt: String): Flow<Image> =
+        flow {
+            generateImagesException?.let { throw it } ?: emitAll(imagesFlow)
+        }
+
+    fun throwOnGetPrompt(exception: Throwable) {
+        getPromptException = exception
+    }
+
+    fun throwOnGenerateImages(exception: Throwable) {
+        generateImagesException = exception
+    }
 
     fun sendWord(chat: Chat) {
         promptFlow.tryEmit(chat)
