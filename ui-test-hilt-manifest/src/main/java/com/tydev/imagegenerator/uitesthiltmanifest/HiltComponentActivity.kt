@@ -13,20 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("tydev.android.library")
-    id("tydev.android.hilt")
-}
 
-android {
-    namespace = "com.tydev.imagegenerator.core.datastore.test"
-}
+package com.tydev.imagegenerator.uitesthiltmanifest
 
-dependencies {
-    api(project(":core:datastore"))
-    api(libs.androidx.dataStore.core)
+import androidx.activity.ComponentActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-    implementation(libs.protobuf.kotlin.lite)
-    implementation(project(":core:common"))
-    implementation(project(":core:testing"))
-}
+/**
+ * A [ComponentActivity] annotated with [AndroidEntryPoint] for use in tests, as a workaround
+ * for https://github.com/google/dagger/issues/3394
+ */
+@AndroidEntryPoint
+class HiltComponentActivity : ComponentActivity()

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 The Android Open Source Project
+ * Copyright 2022 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("tydev.android.library")
-    id("tydev.android.hilt")
-}
 
-android {
-    namespace = "com.tydev.imagegenerator.core.datastore.test"
-}
+package com.tydev.core.imagegenerator.testing.di
 
-dependencies {
-    api(project(":core:datastore"))
-    api(libs.androidx.dataStore.core)
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import javax.inject.Singleton
 
-    implementation(libs.protobuf.kotlin.lite)
-    implementation(project(":core:common"))
-    implementation(project(":core:testing"))
+@Module
+@InstallIn(SingletonComponent::class)
+object TestDispatcherModule {
+    @Provides
+    @Singleton
+    fun providesTestDispatcher(): TestDispatcher = UnconfinedTestDispatcher()
 }

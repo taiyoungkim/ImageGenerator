@@ -13,16 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+plugins {
+    id("tydev.android.library")
+    id("tydev.android.hilt")
+}
 
-package com.tydev.imagegenerator.core.network
-
-import javax.inject.Qualifier
-import kotlin.annotation.AnnotationRetention.RUNTIME
-
-@Qualifier
-@Retention(RUNTIME)
-annotation class Dispatcher(val dispatcher: GeneratorAppDispatchers)
-
-enum class GeneratorAppDispatchers {
-    IO,
+android {
+    namespace = "com.tydev.imagegenerator.uitesthiltmanifest"
 }

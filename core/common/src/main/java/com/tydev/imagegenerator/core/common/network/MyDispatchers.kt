@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 The Android Open Source Project
+ * Copyright 2022 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("tydev.android.library")
-    id("tydev.android.hilt")
-}
 
-android {
-    namespace = "com.tydev.imagegenerator.core.datastore.test"
-}
+package com.tydev.imagegenerator.core.common.network
 
-dependencies {
-    api(project(":core:datastore"))
-    api(libs.androidx.dataStore.core)
+import javax.inject.Qualifier
+import kotlin.annotation.AnnotationRetention.RUNTIME
 
-    implementation(libs.protobuf.kotlin.lite)
-    implementation(project(":core:common"))
-    implementation(project(":core:testing"))
+@Qualifier
+@Retention(RUNTIME)
+annotation class Dispatcher(val myDispatcher: MyDispatchers)
+
+enum class MyDispatchers {
+    Default,
+    IO,
 }

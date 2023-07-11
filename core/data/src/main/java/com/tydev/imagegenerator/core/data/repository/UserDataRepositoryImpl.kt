@@ -18,15 +18,12 @@ package com.tydev.imagegenerator.core.data.repository
 
 import com.tydev.imagegenerator.core.datastore.UserDataSource
 import com.tydev.imagegenerator.core.model.data.UserData
-import com.tydev.imagegenerator.core.network.Dispatcher
-import com.tydev.imagegenerator.core.network.GeneratorAppDispatchers
 import com.tydev.imagegenerator.core.network.retrofit.NetworkInterceptor
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class UserDataRepositoryImpl @Inject constructor(
-    preferencesDataSource: UserDataSource,
+    private val preferencesDataSource: UserDataSource,
     private val networkInterceptor: NetworkInterceptor,
 ) : UserDataRepository {
 

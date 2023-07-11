@@ -18,6 +18,7 @@ package com.tydev.imagegenerator.core.datastore.test
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
+import com.tydev.imagegenerator.core.common.network.di.ApplicationScope
 import com.tydev.imagegenerator.core.datastore.UserPreferences
 import com.tydev.imagegenerator.core.datastore.UserPreferencesSerializer
 import com.tydev.imagegenerator.core.datastore.di.DataStoreModule
@@ -25,9 +26,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
 import org.junit.rules.TemporaryFolder
 import javax.inject.Singleton
 
@@ -41,14 +40,21 @@ object TestDataStoreModule {
     @Provides
     @Singleton
     fun providesUserPreferencesDataStore(
-        dispatcher: CoroutineDispatcher,
+        @ApplicationScope scope: CoroutineScope,
         userPreferencesSerializer: UserPreferencesSerializer,
         tmpFolder: TemporaryFolder,
     ): DataStore<UserPreferences> =
         tmpFolder.testUserPreferencesDataStore(
-            coroutineScope = CoroutineScope(SupervisorJob() + dispatcher),
+            coroutineScope = scope,
             userPreferencesSerializer = userPreferencesSerializer,
         )
+
+    @Provides
+    fun provideTemporaryFolder(): TemporaryFolder {
+        val tempFolder = TemporaryFolder.builder().assureDeletion().build()
+        tempFolder.create()
+        return tempFolder
+    }
 }
 
 fun TemporaryFolder.testUserPreferencesDataStore(

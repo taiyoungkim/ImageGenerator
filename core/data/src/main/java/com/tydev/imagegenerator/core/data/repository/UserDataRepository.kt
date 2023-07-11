@@ -21,10 +21,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserDataRepository {
 
-	/**
-	 * Stream of [UserData]
-	 */
-	val userData: Flow<UserData>
+    /**
+     * Stream of [UserData]
+     */
+    val userData: Flow<UserData>
 
-	suspend fun fetchUserDataAndUpdateKey(userData: UserData)
+    suspend fun fetchUserDataAndUpdateKey(userData: UserData)
 }

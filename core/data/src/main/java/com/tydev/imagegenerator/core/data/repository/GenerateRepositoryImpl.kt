@@ -17,12 +17,12 @@
 package com.tydev.imagegenerator.core.data.repository
 
 import androidx.annotation.WorkerThread
+import com.tydev.imagegenerator.core.common.network.Dispatcher
+import com.tydev.imagegenerator.core.common.network.MyDispatchers.IO
 import com.tydev.imagegenerator.core.model.data.Message
 import com.tydev.imagegenerator.core.model.data.Role
 import com.tydev.imagegenerator.core.model.request.CompletionBody
 import com.tydev.imagegenerator.core.model.request.GenerateImageBody
-import com.tydev.imagegenerator.core.network.Dispatcher
-import com.tydev.imagegenerator.core.network.GeneratorAppDispatchers
 import com.tydev.imagegenerator.core.network.NetworkDataSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow
@@ -32,7 +32,7 @@ import javax.inject.Inject
 
 class GenerateRepositoryImpl @Inject constructor(
     private val networkDataSource: NetworkDataSource,
-    @Dispatcher(GeneratorAppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
+    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
 ) : GeneratorRepository {
 
     @WorkerThread
