@@ -29,7 +29,8 @@ class UserDataRepositoryImpl @Inject constructor(
 
     override val userData: Flow<UserData> = preferencesDataSource.userData
 
-    override suspend fun fetchUserDataAndUpdateKey(userData: UserData) {
-        networkInterceptor.apiKey = userData.apiKey
+    override suspend fun fetchUserDataAndUpdateKey(apiKey: String) {
+        preferencesDataSource.setApiKey(apiKey)
+        networkInterceptor.apiKey = apiKey
     }
 }

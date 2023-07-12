@@ -26,5 +26,5 @@ interface UserDataRepository {
      */
     val userData: Flow<UserData>
 
-    suspend fun fetchUserDataAndUpdateKey(userData: UserData)
+    suspend fun fetchUserDataAndUpdateKey(apiKey: String)
 }

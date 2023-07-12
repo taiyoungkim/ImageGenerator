@@ -69,10 +69,10 @@ class UserDataRepositoryImplTest {
 
     @Test
     fun fetch_User_Data_And_Update_Key_Should_Update_ApiKey_In_NetworkInterceptor() = runTest {
-        val testUserData = UserData(apiKey = "testApiKey")
+        val testApiKey = "testApiKey"
 
-        subject.fetchUserDataAndUpdateKey(testUserData)
+        subject.fetchUserDataAndUpdateKey(testApiKey)
 
-        assertEquals(testUserData.apiKey, networkInterceptor.apiKey)
+        assertEquals(testApiKey, networkInterceptor.apiKey)
     }
 }

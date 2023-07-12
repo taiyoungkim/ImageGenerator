@@ -16,6 +16,8 @@
 
 package com.tydev.imagegenerator
 
+import com.tydev.core.imagegenerator.domain.FetchUserDataAndUpdateKeyUseCase
+import com.tydev.core.imagegenerator.domain.GetUserDataUseCase
 import com.tydev.core.imagegenerator.testing.repository.TestUserDataRepository
 import com.tydev.core.imagegenerator.testing.util.MainDispatcherRule
 import com.tydev.imagegenerator.core.datastore.di.DataStoreModule
@@ -43,13 +45,16 @@ class MainViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     private val userDataRepository = TestUserDataRepository()
+    private val getUserDataUseCase = GetUserDataUseCase(userDataRepository)
+    private val fetchUserDataAndUpdateKeyUseCase =
+        FetchUserDataAndUpdateKeyUseCase(userDataRepository)
 
     private lateinit var viewModel: MainViewModel
 
     @Before
     fun setup() {
         hiltRule.inject()
-        viewModel = MainViewModel(userDataRepository)
+        viewModel = MainViewModel(getUserDataUseCase, fetchUserDataAndUpdateKeyUseCase)
     }
 
     @Test

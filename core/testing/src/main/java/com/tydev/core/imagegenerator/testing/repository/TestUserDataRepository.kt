@@ -36,9 +36,9 @@ class TestUserDataRepository : UserDataRepository {
 
     override val userData: Flow<UserData> = _userData.filterNotNull()
 
-    override suspend fun fetchUserDataAndUpdateKey(userData: UserData) {
+    override suspend fun fetchUserDataAndUpdateKey(apiKey: String) {
         currentUserData.let { current ->
-            _userData.tryEmit(current.copy(apiKey = userData.apiKey))
+            _userData.tryEmit(current.copy(apiKey = apiKey))
         }
     }
 

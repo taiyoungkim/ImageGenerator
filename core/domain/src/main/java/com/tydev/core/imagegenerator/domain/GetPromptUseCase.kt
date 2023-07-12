@@ -25,10 +25,9 @@ class GetPromptUseCase @Inject constructor(
     private val generatorRepository: GeneratorRepository,
 ) {
     operator fun invoke(word: String): Flow<Chat> {
-
         if (word.isEmpty()) {
             throw IllegalArgumentException(WORD_EMPTY)
-        } else if (word.length > 20) {
+        } else if (word.length > WORD_LIMIT) {
             throw IllegalArgumentException(WORD_OVER_LIMIT)
         }
 
@@ -38,5 +37,6 @@ class GetPromptUseCase @Inject constructor(
     companion object {
         const val WORD_EMPTY = "1"
         const val WORD_OVER_LIMIT = "2"
+        const val WORD_LIMIT = 20
     }
 }

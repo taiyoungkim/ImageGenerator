@@ -18,10 +18,11 @@ package com.tydev.imagegenerator
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tydev.core.imagegenerator.domain.FetchUserDataAndUpdateKeyUseCase
+import com.tydev.core.imagegenerator.domain.GetUserDataUseCase
 import com.tydev.imagegenerator.MainActivityUiState.Error
 import com.tydev.imagegenerator.MainActivityUiState.Loading
 import com.tydev.imagegenerator.MainActivityUiState.Success
-import com.tydev.imagegenerator.core.data.repository.UserDataRepository
 import com.tydev.imagegenerator.core.model.data.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -34,16 +35,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    userDataRepository: UserDataRepository,
+    getUserDataUseCase: GetUserDataUseCase,
+    fetchUserDataAndUpdateKeyUseCase: FetchUserDataAndUpdateKeyUseCase,
 ) : ViewModel() {
     init {
         viewModelScope.launch {
-            val user = userDataRepository.userData.first()
-            userDataRepository.fetchUserDataAndUpdateKey(user)
+            val user = getUserDataUseCase().first()
+            fetchUserDataAndUpdateKeyUseCase(user.apiKey)
         }
     }
 
-    val uiState: StateFlow<MainActivityUiState> = userDataRepository.userData
+    val uiState: StateFlow<MainActivityUiState> = getUserDataUseCase()
         .map {
             if (it.apiKey.isEmpty()) {
                 Error(KotlinNullPointerException())
