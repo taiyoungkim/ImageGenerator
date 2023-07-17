@@ -11,6 +11,7 @@ import org.gradle.kotlin.dsl.withType
 import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
 import org.gradle.testing.jacoco.tasks.JacocoReport
+import java.util.Locale
 
 private val coverageExclusions = listOf(
     // Android
@@ -32,9 +33,17 @@ internal fun Project.configureJacoco(
     val jacocoTestReport = tasks.create("jacocoTestReport")
 
     androidComponentsExtension.onVariants { variant ->
-        val testTaskName = "test${variant.name.capitalize()}UnitTest"
+        val testTaskName = "test${variant.name.replaceFirstChar {
+            if (it.isLowerCase()) it.titlecase(
+                Locale.ROOT
+            ) else it.toString()
+        }}UnitTest"
 
-        val reportTask = tasks.register("jacoco${testTaskName.capitalize()}Report", JacocoReport::class) {
+        val reportTask = tasks.register("jacoco${testTaskName.replaceFirstChar {
+            if (it.isLowerCase()) it.titlecase(
+                Locale.ROOT
+            ) else it.toString()
+        }}Report", JacocoReport::class) {
             dependsOn(testTaskName)
 
             reports {

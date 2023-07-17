@@ -19,7 +19,6 @@ package com.tydev.core.imagegenerator.data.repository
 import com.tydev.imagegenerator.core.data.repository.UserDataRepositoryImpl
 import com.tydev.imagegenerator.core.datastore.UserDataSource
 import com.tydev.imagegenerator.core.datastore.test.testUserPreferencesDataStore
-import com.tydev.imagegenerator.core.model.data.UserData
 import com.tydev.imagegenerator.core.network.retrofit.NetworkInterceptor
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
