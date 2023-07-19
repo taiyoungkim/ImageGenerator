@@ -22,4 +22,9 @@ plugins {
 
 android {
     namespace = "com.tydev.imagegenerator.feature.generator"
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
