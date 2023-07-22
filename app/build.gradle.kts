@@ -77,7 +77,6 @@ dependencies {
     androidTestImplementation(project(":core:datastore-test"))
     androidTestImplementation(project(":core:network"))
 
-    androidTestImplementation(libs.androidx.navigation.testing)
     androidTestImplementation(libs.accompanist.testharness)
     androidTestImplementation(kotlin("test"))
     debugImplementation(libs.androidx.compose.ui.testManifest)
@@ -103,4 +102,10 @@ dependencies {
     implementation(libs.coil.kt.svg)
 
     api(libs.androidx.tracing.ktx)
+
+    testImplementation(libs.robolectric)
+    testImplementation(libs.junit4)
+    testImplementation(libs.androidx.compose.ui.test)
+    testImplementation(libs.androidx.navigation.testing)
+    testImplementation(libs.androidx.test.espresso.core)
 }
