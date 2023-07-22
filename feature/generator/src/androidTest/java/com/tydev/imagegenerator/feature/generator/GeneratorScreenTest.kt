@@ -42,7 +42,7 @@ class GeneratorScreenTest {
         composeTestRule.setContent {
             GeneratorScreen(
                 generatorState = GeneratorUiState.Initial,
-                onGeneratePrompt = {}
+                onGeneratePrompt = {},
             )
         }
 
@@ -54,7 +54,7 @@ class GeneratorScreenTest {
         composeTestRule.setContent {
             GeneratorScreen(
                 generatorState = GeneratorUiState.Loading,
-                onGeneratePrompt = {}
+                onGeneratePrompt = {},
             )
         }
 
@@ -68,7 +68,7 @@ class GeneratorScreenTest {
         composeTestRule.setContent {
             GeneratorScreen(
                 generatorState = GeneratorUiState.Error(error),
-                onGeneratePrompt = {}
+                onGeneratePrompt = {},
             )
         }
         val context = ApplicationProvider.getApplicationContext<Context>()
@@ -114,12 +114,12 @@ class GeneratorScreenTest {
                 DataItem(
                     url = "url4",
                 ),
-            )
+            ),
         )
         composeTestRule.setContent {
             GeneratorScreen(
                 generatorState = GeneratorUiState.Success(chat, image),
-                onGeneratePrompt = {}
+                onGeneratePrompt = {},
             )
         }
 
