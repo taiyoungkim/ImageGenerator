@@ -19,24 +19,26 @@ package com.tydev.core.imagegenerator.domain
 import com.tydev.imagegenerator.core.data.repository.GeneratorRepository
 import com.tydev.imagegenerator.core.model.data.Chat
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class GetPromptUseCase @Inject constructor(
     private val generatorRepository: GeneratorRepository,
 ) {
-    operator fun invoke(word: String): Flow<Chat> {
+    operator fun invoke(word: String): Flow<Chat> = flow {
         if (word.isEmpty()) {
             throw IllegalArgumentException(WORD_EMPTY)
         } else if (word.length > WORD_LIMIT) {
             throw IllegalArgumentException(WORD_OVER_LIMIT)
         }
 
-        return generatorRepository.getPrompt(word)
+        emitAll(generatorRepository.getPrompt(word))
     }
 
     companion object {
         const val WORD_EMPTY = "1"
         const val WORD_OVER_LIMIT = "2"
-        const val WORD_LIMIT = 20
+        const val WORD_LIMIT = 50
     }
 }
